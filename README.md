@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ethereum Balance Checker
+
+A simple full-stack application to check the ETH, USDC, and LINK balances for a given Ethereum address on the Mainnet.
+
+## Features
+
+*   **Frontend:** Enter an Ethereum address via a React/Next.js interface.
+*   **Backend:** A Next.js API route (`/api/balance`) fetches balances using a public Ethereum RPC.
+*   **Balance Display:** Shows formatted balances for ETH, USDC, and LINK.
+*   **Formatting:** Applies specific number formatting rules as per requirements.
+*   **Caching:** Backend includes a 60-second in-memory cache to reduce redundant RPC calls.
+
+## Tech Stack
+
+*   **Framework:** Next.js (React)
+*   **Language:** TypeScript
+*   **Web3 Interaction:** ethers.js
+
+## Prerequisites
+
+*   Node.js (v18 or later recommended)
+*   npm (or yarn/pnpm)
 
 ## Getting Started
 
-First, run the development server:
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd <repository-directory>
+    ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+    *(Note: If you prefer yarn or pnpm, use `yarn install` or `pnpm install`)*
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4.  **Open the application:**
+    Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How to Use
 
-## Learn More
+1.  Enter a valid Ethereum address (e.g., `0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045`) into the input field.
+2.  Click the "Check Balance" button.
+3.  The balances for ETH, USDC, and LINK for that address will be displayed in cards below the form.
+4.  Requests for the same address within 60 seconds will be served from the cache (check server console logs for cache hits/misses).
 
-To learn more about Next.js, take a look at the following resources:
+## Assumptions Made
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*   **Public RPC:** The application uses a public Ethereum RPC endpoint (`https://eth.llamarpc.com`). In a production scenario, a dedicated RPC provider (e.g., Infura, Alchemy) with an API key would be recommended for reliability and rate limiting.
+*   **Number Formatting:** The balance formatting logic in `src/lib/utils.ts` was implemented to match the specific examples provided in the requirements, particularly for numbers less than 1.
+*   **Cache Scope:** The in-memory cache is per-server-process. In serverless or multi-instance deployments, each instance would have its own cache.
+*   **Error Handling:** Basic error handling is implemented. More granular error handling could be added (e.g., distinguishing network errors from invalid responses).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Available Scripts
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*   `npm run dev`: Starts the development server.
+*   `npm run build`: Builds the application for production.
+*   `npm run start`: Starts the production server (requires `build` first).
+*   `npm run lint`: Lints the codebase using Next.js ESLint config.
+*   `npm test`: Runs integration tests using Jest against the API route logic (requires Node environment).
