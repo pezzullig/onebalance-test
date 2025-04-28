@@ -16,12 +16,14 @@ const CACHE_DURATION_MS = 60 * 1000; // 60 seconds
 const TOKEN_ADDRESSES = {
   USDC: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
   LINK: '0x514910771AF9Ca656af840dff83E8264EcF986CA',
+  BROKEN: '0x514910771AF9Ca656af840dff83E8264EcF986CB', // this is to show that errors or broken contracts are not included in the balance
 };
 
 // Token decimals
 const TOKEN_DECIMALS = {
   USDC: 6,
   LINK: 18,
+  BROKEN: 18,
 };
 
 // ABI for ERC20 token balance
@@ -72,10 +74,13 @@ export async function GET(request: Request) {
       Object.entries(TOKEN_ADDRESSES).map(async ([token, contractAddress]) => {
         const contract = new ethers.Contract(contractAddress, ERC20_ABI, provider);
         const balance = await contract.balanceOf(address);
+        console.log(`Balance for ${token}: ${balance}`);
         const formattedBalance = ethers.formatUnits(balance, TOKEN_DECIMALS[token as keyof typeof TOKEN_DECIMALS]);
         return { token, balance: formattedBalance };
       })
     );
+
+    console.log(`Token balances: ${JSON.stringify(tokenBalances)}`);
 
     const successfulTokenBalances = tokenBalances
       .filter((result): result is PromiseFulfilledResult<{ token: string; balance: string }> =>
@@ -99,13 +104,11 @@ export async function GET(request: Request) {
         );
     }
 
-    // --- Cache Update --- >
     balanceCache.set(address, {
       balances: finalBalances,
       timestamp: Date.now(),
     });
     console.log(`Cache updated for address: ${address}`);
-    // < --- End Cache Update ---
 
     return NextResponse.json({ balances: finalBalances });
 
