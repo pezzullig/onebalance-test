@@ -2,6 +2,8 @@
 
 A simple full-stack application to check the ETH, USDC, and LINK balances for a given Ethereum address on the Mainnet.
 
+Demo: https://onebalance-test-production.up.railway.app/
+
 ## Features
 
 *   **Frontend:** Enter an Ethereum address via a React/Next.js interface.
@@ -9,6 +11,7 @@ A simple full-stack application to check the ETH, USDC, and LINK balances for a 
 *   **Balance Display:** Shows formatted balances for ETH, USDC, and LINK.
 *   **Formatting:** Applies specific number formatting rules as per requirements.
 *   **Caching:** Backend includes a 60-second in-memory cache to reduce redundant RPC calls.
+*   **Deployment** Currently deployed on railway: https://onebalance-test-production.up.railway.app/
 
 ## Tech Stack
 
@@ -33,7 +36,7 @@ A simple full-stack application to check the ETH, USDC, and LINK balances for a 
     ```bash
     npm install
     ```
-    *(Note: If you prefer yarn or pnpm, use `yarn install` or `pnpm install`)*
+
 
 3.  **Run the development server:**
     ```bash
@@ -41,7 +44,7 @@ A simple full-stack application to check the ETH, USDC, and LINK balances for a 
     ```
 
 4.  **Open the application:**
-    Open [http://localhost:3000](http://localhost:3000) in your browser.
+    Open [http://localhost:5039](http://localhost:5039) in your browser.
 
 ## How to Use
 
